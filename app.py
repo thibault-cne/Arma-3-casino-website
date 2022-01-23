@@ -31,6 +31,10 @@ def create_app() -> Flask:
     from python.blueprints.mainBP import mainBP
     app.register_blueprint(mainBP)
 
+    ## Import roulette blueprint
+    from python.blueprints.rouletteBP import rouletteBP
+    app.register_blueprint(rouletteBP)
+
     # Error 404 handler
     @app.errorhandler(404)
     def pageNotFound(error):

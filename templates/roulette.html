@@ -1,0 +1,24 @@
+<!--
+    Date : 23/01/2022
+    Author : Thibault Chenevière
+    Discord : @Thibô#0001
+    Email : thibault.cheneviere@telecomnancy.eu
+-->
+
+{% extends 'layout.html' %}
+
+{% block header %}
+    <!-- CSS dependancies -->
+    <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/roulette.css') }}">
+
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+{% endblock header %}
+
+{% block container %}
+    <div class='roulette-wrapper'>
+        <div class='selector'></div>
+        <div class='wheel'></div>
+    </div>
+    <script src="/static/js/roulette.js"></script>
+{% endblock container %}
