@@ -20,5 +20,71 @@
         <div class='selector'></div>
         <div class='wheel'></div>
     </div>
+    <form action="">
+        <div class="amount-selection">
+            <div class="roulette-control">
+                <input type="text" placeholder="Entrez votre somme" >
+            </div>
+            <div class="roulette-buttons">
+                <button class="bet-btn"> +5$ </button>
+                <button class="bet-btn"> +10$ </button>
+                <button class="bet-btn"> +25$ </button>
+                <button class="bet-btn"> +100$ </button>
+                <button class="bet-btn"> 1/2 </button>
+                <button class="bet-btn"> x2 </button>
+                <button class="bet-btn"> Maximum </button>
+            </div>
+            <div class="row entries">
+                <div class="column red">
+                    <div class="card">
+                        <p> Profit potentiel : </p>
+                        <button class="column-btn btn red-btn"> 1 à 7 </button>
+                        <div class="entries-header">
+                            <div class="icon-players">
+                                <i class="icon fas fa-users"></i>
+                                <span class="player-number"> 0 </span>
+                            </div>
+                            <div class="total-money">
+                                $0
+                            </div>
+                            <hr class="rounded-div">
+                        </div>
+                    </div>
+                </div>
+                <div class="column green">
+                    <div class="card">
+                        <p> Profit potentiel : </p>
+                        <button class="column-btn btn green-btn"> 0 </button>
+                        <div class="entries-header">
+                            <div class="icon-players">
+                                <i class="icon fas fa-users"></i>
+                                <span class="player-number"> 0 </span>
+                            </div>
+                            <div class="total-money">
+                                $0
+                            </div>
+                            <hr class="rounded-div">
+                        </div>
+                    </div>
+                </div>
+                <div class="column black">
+                    <div class="card">
+                        <p> Profit potentiel : </p>
+                        <button class="column-btn btn black-btn"> 8 à 14 </button>
+                        <div class="entries-header">
+                            <div class="icon-players">
+                                <i class="icon fas fa-users"></i>
+                                <span class="player-number"> 0 </span>
+                            </div>
+                            <div class="total-money">
+                                $0
+                            </div>
+                            <hr class="rounded-div">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </form>
+    </div>
     <script src="/static/js/roulette.js"></script>
 {% endblock container %}

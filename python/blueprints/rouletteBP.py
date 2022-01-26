@@ -21,5 +21,6 @@ def main_home() -> str:
         return render_template("roulette.html")
 
     elif request.method == "POST":
-        print("yes")
-        return render_template("roulette.html")
+        resultDict = request.form.to_dict()
+        print(resultDict)
+        return "success"

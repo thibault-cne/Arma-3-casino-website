@@ -74,19 +74,20 @@ function getRandomInt(max) {
 
 function rollWheel() {
   var outcome = getRandomInt(15);
-  spinWheel(outcome);
+  var jsonData = {
+    'result': outcome
+  };
 
   $.ajax({
     type: "POST",
-    url: "http://192.168.0.8:5454/roulette",
-    data: `{
-      'result': outcome,
-    }`,
+    url: "http://localhost:5454/roulette",
+    data: jsonData,
     success: function () {
       if (xhr.readyState === 4) {
         console.log(xhr.status);
         console.log(xhr.responseText);
-    }},
-    dataType: "json"
+    }}
   });
+
+  spinWheel(outcome);
 }
