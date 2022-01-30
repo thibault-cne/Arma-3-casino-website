@@ -6,7 +6,7 @@
 """
 
 # Import needed modules
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 # Import personnal modules
@@ -38,3 +38,17 @@ def getUserByUsername(username: str) -> dict:
             result['cipherPassword'] = users[2]
     
     return result
+
+
+def addUser(username: str, password: str) -> None:
+    query = '''INSERT INTO User (username, password) VALUES (?, ?);'''
+
+    cipherUsername = generate_password_hash(username, 'sha256')
+    cipherPassword = generate_password_hash(password, 'sha256')
+
+    args = (cipherUsername, cipherPassword)
+
+    db, cursor = connectDatabase()
+    cursor.execute(query, args)
+    db.commit()
+    db.close()

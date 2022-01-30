@@ -6,14 +6,14 @@
 """
 
 # Import neded packages
-from flask import Blueprint, request, session
+from flask import Blueprint, redirect, request, session
 from flask.helpers import flash
 from flask.templating import render_template
 from werkzeug.security import check_password_hash
 
 
 # Import personnal modules
-from python.database.databaseFunctions import getUserByUsername
+from python.database.databaseFunctions import addUser, getUserByUsername
 from python.database.checkUsersAccount import checkUserUsername
 
 
@@ -32,6 +32,7 @@ def loginBP_login() -> str:
 
         if user['statement'] and check_password_hash(user['user']['cipherPassword'], password):
             session['id'] = user['user']['id']
+            session['username'] = username
 
             flash("You have succesfully logged in.", "Success")
             return render_template('home.html')
@@ -55,12 +56,16 @@ def loginBP_signup():
         return render_template('signup.html')
 
     elif request.method == 'POST':
-        mail = request.form['eMail']
         username = request.form['username']
         password = request.form['password']
 
         if checkUserUsername(username):
             flash("Il y a déjà un joueur avec ce pseudo. Merci d'en choisir un autre.", "Error")
+            
             return render_template('signup.html')
+        
+        else:
+            addUser(username, password)
+            flash("Vous vous êtes bien inscrit.", "Success")
 
-        return render_template('signup.html')
+            return redirect('/home')
