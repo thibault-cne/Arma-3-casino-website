@@ -6,7 +6,7 @@
 """
 
 # Import needed modules
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session
 
 
 # Create main blueprint
@@ -16,11 +16,26 @@ rouletteBP = Blueprint('rouletteBP', __name__)
 # Definition of the routes
 ## Definition of main route
 @rouletteBP.route('/roulette', methods=["GET", "POST"])
-def main_home() -> str:
+def roulette_page() -> str:
     if request.method == "GET":
-        return render_template("roulette.html")
+        if session.get('id'):
+
+            return render_template("roulette.html", userId=session['id'])
+        
+        else:
+            return render_template("roulette.html")
 
     elif request.method == "POST":
         resultDict = request.form.to_dict()
-        print(resultDict)
+
         return "success"
+
+
+@rouletteBP.route("/addUser", methods=['GET', 'POST'])
+def roulette_addUser():
+    if request.method == 'POST':
+        print(request.form)
+        return {"request": "POST", "color": request.form['color']}
+    elif request.method == 'GET':
+        print(request.args)
+        return {"request": 'GET'}

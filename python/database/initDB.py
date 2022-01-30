@@ -29,8 +29,8 @@ if __name__ == "__main__":
     CREATE TABLE User
     (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT,
-        steamId INTEGER,
+        username TEXT UNIQUE,
+        steamId INTEGER UNIQUE,
         password TEXT
     );
 

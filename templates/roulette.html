@@ -12,7 +12,6 @@
     <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/roulette.css') }}">
 
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 {% endblock header %}
 
 {% block container %}
@@ -21,6 +20,11 @@
         <div class='wheel'></div>
     </div>
     <form action="">
+        {% if userId %}
+            <div id="userId" style="display: none;">
+                {{ userId }}
+            </div>
+        {% endif %}
         <div class="amount-selection">
             <div class="roulette-control">
                 <input type="text" placeholder="Entrez votre somme" >
@@ -38,7 +42,7 @@
                 <div class="column red">
                     <div class="card">
                         <p> Profit potentiel : </p>
-                        <button class="column-btn btn red-btn"> 1 à 7 </button>
+                        <button id="bet-button-red" class="column-btn btn red-btn"> 1 à 7 </button>
                         <div class="entries-header">
                             <div class="icon-players">
                                 <i class="icon fas fa-users"></i>
@@ -48,13 +52,16 @@
                                 $0
                             </div>
                             <hr class="rounded-div">
+                        </div>
+                        <div id="players-name-red" class="players-name players-name-red">
+
                         </div>
                     </div>
                 </div>
                 <div class="column green">
                     <div class="card">
                         <p> Profit potentiel : </p>
-                        <button class="column-btn btn green-btn"> 0 </button>
+                        <button id="bet-button-green" class="column-btn btn green-btn"> 0 </button>
                         <div class="entries-header">
                             <div class="icon-players">
                                 <i class="icon fas fa-users"></i>
@@ -64,13 +71,16 @@
                                 $0
                             </div>
                             <hr class="rounded-div">
+                        </div>
+                        <div id="players-name-green" class="players-name players-name-green">
+
                         </div>
                     </div>
                 </div>
                 <div class="column black">
                     <div class="card">
                         <p> Profit potentiel : </p>
-                        <button class="column-btn btn black-btn"> 8 à 14 </button>
+                        <button id="bet-button-black" class="column-btn btn black-btn"> 8 à 14 </button>
                         <div class="entries-header">
                             <div class="icon-players">
                                 <i class="icon fas fa-users"></i>
@@ -81,10 +91,14 @@
                             </div>
                             <hr class="rounded-div">
                         </div>
+                        <div id="players-name-black" class="players-name players-name-black">
+
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
     </form>
-    </div>
-    <script src="/static/js/roulette.js"></script>
+    <script src="/static/js/rouletteRoll.js"></script>
+    <script src="/static/js/rouletteBet.js"></script>
 {% endblock container %}

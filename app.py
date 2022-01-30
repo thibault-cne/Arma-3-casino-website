@@ -35,6 +35,14 @@ def create_app() -> Flask:
     from python.blueprints.rouletteBP import rouletteBP
     app.register_blueprint(rouletteBP)
 
+    ## Import login blueprint
+    from python.blueprints.loginBP import loginBP
+    app.register_blueprint(loginBP)
+
+    ## Import flash message blueprint
+    from python.blueprints.flashMessageBP import flashMessageBP
+    app.register_blueprint(flashMessageBP)
+
     # Error 404 handler
     @app.errorhandler(404)
     def pageNotFound(error):

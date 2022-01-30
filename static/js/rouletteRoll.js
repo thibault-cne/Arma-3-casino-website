@@ -2,7 +2,7 @@ $(document).ready(function() {
 	//setup multiple rows of colours, can also add and remove while spinning but overall this is easier.
 	initWheel();
  
- 	setInterval(rollWheel, 30000);
+ 	setInterval(rollWheel, 12 * 1000);
 });
 
 function initWheel(){
@@ -27,7 +27,7 @@ function initWheel(){
   row += "  <div class='rcard black'>8<\/div>";
   row += "<\/div>";
   
-	for(var x = 0; x < 60; x++){
+	for(var x = 0; x < 29; x++){
   	$wheel.append(row);
   }
 }
@@ -53,7 +53,7 @@ function spinWheel(roll){
   
   $wheel.css({
 		'transition-timing-function':'cubic-bezier(0,'+ object.x +','+ object.y + ',1)',
-		'transition-duration':'6s',
+		'transition-duration':'5s',
 		'transform':'translate3d(-'+landingPosition+'px, 0px, 0px)'
 	});
   
@@ -82,12 +82,22 @@ function rollWheel() {
     type: "POST",
     url: "http://localhost:5454/roulette",
     data: jsonData,
-    success: function () {
-      if (xhr.readyState === 4) {
-        console.log(xhr.status);
-        console.log(xhr.responseText);
-    }}
+    success: function (result) {
+      console.log(result);
+
+      endRoll();
+    }
   });
+
+  function endRoll() {
+    var blackPlayers = $('.players-name-black');
+    var redPlayers = $('.players-name-red');
+    var greenPlayers = $('.players-name-green');
+
+    blackPlayers.text("");
+    redPlayers.text("");
+    greenPlayers.text("");
+  }
 
   spinWheel(outcome);
 }
