@@ -29,9 +29,10 @@ if __name__ == "__main__":
     CREATE TABLE User
     (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE,
         steamId INTEGER UNIQUE,
-        password TEXT
+        picture TEXT UNIQUE,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL
     );
 
     CREATE TABLE Account

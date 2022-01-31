@@ -6,7 +6,7 @@
 """
 
 # Import neded packages
-from flask import Blueprint, flash, redirect, request, session
+from flask import Blueprint, flash, request
 
 
 # Import personnal modules

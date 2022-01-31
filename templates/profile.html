@@ -1,0 +1,41 @@
+<!--
+    Authors : Thibault Cheneviere, Thom Guillot
+    Mail : thibault.cheneviere@telecomnancy.eu, thom.guillot@telecomnancy.eu
+    Date : 5/01/2022
+-->
+
+{% extends 'layout.html' %}
+
+{% block header %}
+    <!-- CSS dependencies -->
+    <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/profile.css') }}">
+    
+    <!-- Page title -->
+    <title>Profil de {{ data['user']['username'] }}</title>
+{% endblock header %}
+
+{% block container %}
+    <form action="{{ url_for('profileBP.profileBP_profile', username=data['username'], id=data['id']) }}" method="POST" enctype="multipart/form-data">
+        <div class="card">
+            <div class="profile-container">
+                {% if data['user']['picture'] != 'None' %}
+                    <img class="picture border border-4 border-danger" src="/static/images/candidatePictures/{{ data['picture'] }}" alt="Your profile picture">
+                {% else %}
+                    <img class="picture border border-4 border-danger" src="/static/images/defaultProfilePicture.png">
+                {% endif %}
+                <div class="title-container">
+                    <div class="border border-4 border-danger">
+                        <h2 class="text-center">Profil de {{ data['user']['username'] }}</h2>
+                    </div>
+                    <div class="input-picture">
+                        <label class="picInput" for="picInputId">Photo de Profil : </label>
+                        <input class="form-input" name="picture" type="file" accept="image/*" placeholder="Choisissez votre photo de profil">
+                    </div>
+                    <div class="submit-button">
+                        <button class="btn btn-danger bg-danger">Enregister les modifications</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock container %}

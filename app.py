@@ -43,6 +43,14 @@ def create_app() -> Flask:
     from python.blueprints.flashMessageBP import flashMessageBP
     app.register_blueprint(flashMessageBP)
 
+    ## Import redirect blueprint
+    from python.blueprints.redirectsBP import redirectsBP
+    app.register_blueprint(redirectsBP)
+
+    ## Import profile blueprint
+    from python.blueprints.profileBP import profileBP
+    app.register_blueprint(profileBP)
+
     # Error 404 handler
     @app.errorhandler(404)
     def pageNotFound(error):

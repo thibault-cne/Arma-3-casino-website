@@ -22,6 +22,7 @@ def getUserByUsername(username: str) -> dict:
         'user': {
             'id': "",
             'username': username,
+            'picture': '',
             'cipherPassword': ""
         }
     }
@@ -32,10 +33,12 @@ def getUserByUsername(username: str) -> dict:
     db.close()
 
     for users in data:
-        if check_password_hash(users[1], username):
+        print(users)
+        if check_password_hash(users[3], username):
             result['statement'] = True
-            result['id'] = users[0]
-            result['cipherPassword'] = users[2]
+            result['user']['id'] = users[0]
+            result['user']['picture'] = users[2]
+            result['user']['cipherPassword'] = users[4]
     
     return result
 

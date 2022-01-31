@@ -5,21 +5,23 @@
     Email : thibault.cheneviere@telecomnancy.eu
 """
 
+# Import needed modules
+from werkzeug.security import check_password_hash
 
 # Import personal modules
 from python.database.connectDatabase import connectDatabase
 
 
 def checkUserUsername(username: str) -> bool:
-    query = '''SELECT * FROM User WHERE username=?;'''
-    arg = (username, )
+    query = '''SELECT * FROM User'''
 
     db, cursor = connectDatabase()
-    cursor.execute(query, arg)
+    cursor.execute(query)
     data = cursor.fetchall()
     db.close()
 
-    if len(data) != 0:
-        return False
-    else:
-        return True
+    for users in data:
+        if check_password_hash(users[3], username):
+            return True
+    
+    return False

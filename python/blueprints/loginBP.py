@@ -14,7 +14,7 @@ from werkzeug.security import check_password_hash
 
 # Import personnal modules
 from python.database.databaseFunctions import addUser, getUserByUsername
-from python.database.checkUsersAccount import checkUserUsername
+from python.database.checkFunctions import checkUserUsername
 
 
 # Definition of the blueprint
@@ -29,6 +29,7 @@ def loginBP_login() -> str:
         password = request.form['password']
 
         user = getUserByUsername(username)
+        print(user)
 
         if user['statement'] and check_password_hash(user['user']['cipherPassword'], password):
             session['id'] = user['user']['id']
@@ -42,7 +43,7 @@ def loginBP_login() -> str:
             return render_template('login.html')
         
         else:
-            flash("You have a wrong password, please retry.", "Success")
+            flash("You have a wrong password, please retry.", "Error")
             return render_template('login.html')
 
 
@@ -69,3 +70,12 @@ def loginBP_signup():
             flash("Vous vous êtes bien inscrit.", "Success")
 
             return redirect('/home')
+
+
+# Definition of the logout route
+@loginBP.route('/logout')
+def loginBP_logout() -> str:
+    session['id'] = None
+    session['username'] = None
+
+    return render_template('home.html')
