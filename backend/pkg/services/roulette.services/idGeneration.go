@@ -1,11 +1,11 @@
-package services
+package rouletteservices
 
 import (
 	"crypto/rand"
 	"fmt"
 )
 
-func GenerateRandomId() (randId string) {
+func generateRandomId() (randId string) {
 	b := make([]byte, 16)
 	_, err := rand.Read(b)
 	if err != nil {
