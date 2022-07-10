@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"casino.website/pkg/config"
+	"casino.website/pkg/controllers"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -27,10 +28,10 @@ func InitServer() {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
-	// basepath := router.Group("/api/v1")
+	basepath := router.Group("/api/v1")
 
 	// Add all controllers
-	// controllers.Register_controllers(basepath)
+	controllers.RegisterControllers(basepath)
 
 	s := &http.Server{
 		Addr:           APP_DOMAIN + ":" + APP_PORT,

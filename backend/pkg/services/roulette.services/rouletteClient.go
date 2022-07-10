@@ -1,6 +1,11 @@
 package rouletteservices
 
-import "github.com/gorilla/websocket"
+import (
+	"fmt"
+	"log"
+
+	"github.com/gorilla/websocket"
+)
 
 type RouletteClient struct {
 	ClientId string `json:"id"`
@@ -13,4 +18,12 @@ func (rClient *RouletteClient) ReadRouletteClient(rGame *RouletteGame) {
 		rClient.WsConn.Close()
 	}()
 
+	for {
+		messageType, p, err := rClient.WsConn.ReadMessage()
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		fmt.Printf("Message Received: %d || %+v\n", messageType, p)
+	}
 }

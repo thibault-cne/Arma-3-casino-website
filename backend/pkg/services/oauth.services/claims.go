@@ -1,4 +1,4 @@
-package claimsservices
+package oauthservices
 
 import (
 	"os"
