@@ -1,6 +1,11 @@
 package models
 
+import "gorm.io/gorm"
+
 type Client struct {
-	Id     string `json:"id"`
-	Wallet int    `json:"wallet"`
+	gorm.Model
+	Username   string `json:"username"`
+	Password   string `json:"password"`
+	AccessType int    `json:"accessType"`
+	Wallet     int    `json:"wallet"`
 }
