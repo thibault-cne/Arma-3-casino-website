@@ -37,10 +37,11 @@ func (rGame *RouletteGame) Start() {
 	for {
 		select {
 		case bet := <-rGame.RegisterBet:
+			fmt.Printf("Registering a new bet %+v\n", bet)
 			rGame.Bets[bet] = true
-			rGame.BroadcastBets <- bet
 			break
 		case client := <-rGame.RegisterPlayerConn:
+			fmt.Printf("Registering a new player %+v\n", client)
 			rGame.ConnectedPlayers[client] = true
 			break
 		case client := <-rGame.UnregisterPlayerConn:
@@ -48,7 +49,10 @@ func (rGame *RouletteGame) Start() {
 			break
 		case bet := <-rGame.BroadcastBets:
 			for connectedClient := range rGame.ConnectedPlayers {
-				connectedClient.WsConn.WriteJSON(bet)
+				if err := connectedClient.WsConn.WriteJSON(bet); err != nil {
+					fmt.Printf("An error occured while broadcasting : %s", err.Error())
+					return
+				}
 			}
 			break
 		}

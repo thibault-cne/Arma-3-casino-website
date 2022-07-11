@@ -1,9 +1,11 @@
 package rouletteservices
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
+	"casino.website/pkg/models"
 	"github.com/gorilla/websocket"
 )
 
@@ -14,16 +16,32 @@ type RouletteClient struct {
 
 func (rClient *RouletteClient) ReadRouletteClient(rGame *RouletteGame) {
 	defer func() {
+		fmt.Printf("Defering player conn\n")
 		rGame.UnregisterPlayerConn <- rClient
 		rClient.WsConn.Close()
 	}()
 
 	for {
-		messageType, p, err := rClient.WsConn.ReadMessage()
+		_, p, err := rClient.WsConn.ReadMessage()
+		fmt.Printf("Receiving new message ...\n")
 		if err != nil {
 			log.Println(err)
 			return
 		}
-		fmt.Printf("Message Received: %d || %+v\n", messageType, p)
+
+		var frontBet models.FrontBet
+
+		if err = json.Unmarshal(p, &frontBet); err != nil {
+			fmt.Printf("An error occured while unmarshalling data : %s\n", err.Error())
+			fmt.Printf("Here is what where sent : %q\n", p)
+			return
+		}
+
+		rBet := &models.RouletteBets{ClientId: rClient.ClientId, BetPosition: frontBet.Color, BetAmount: frontBet.Amount}
+
+		fmt.Printf("%p", rBet)
+
+		rGame.RegisterBet <- rBet
+		rGame.BroadcastBets <- rBet
 	}
 }
