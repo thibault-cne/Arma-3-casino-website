@@ -2,6 +2,7 @@ package oauthcontrollers
 
 import (
 	"net/http"
+	"strings"
 
 	oauthservices "casino.website/pkg/services/oauth.services"
 	"github.com/gin-gonic/gin"
@@ -28,8 +29,24 @@ func login(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, userClaims)
 }
 
+func refreshToken(ctx *gin.Context) {
+	reqToken := ctx.Request.Header.Get("Authorization")
+	splitToken := strings.Split(reqToken, "Bearer ")
+	reqToken = splitToken[1]
+
+	new_access_token, err := oauthservices.RefreshToken(reqToken)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"accessToken": new_access_token})
+}
+
 func LoginRoutesHandler(rg *gin.RouterGroup) {
 	routerGroup := rg.Group("/oauth")
 
 	routerGroup.POST("/login", login)
+	routerGroup.GET("/refresh", refreshToken)
 }
