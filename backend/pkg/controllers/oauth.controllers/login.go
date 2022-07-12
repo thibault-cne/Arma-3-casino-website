@@ -1,9 +1,11 @@
 package oauthcontrollers
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
+	clientservices "casino.website/pkg/services/client.services"
 	oauthservices "casino.website/pkg/services/oauth.services"
 	"github.com/gin-gonic/gin"
 )
@@ -12,14 +14,16 @@ func login(ctx *gin.Context) {
 	username := ctx.PostForm("username")
 	password := ctx.PostForm("password")
 
+	fmt.Printf("Username %s", username)
+
 	if !oauthservices.CheckUserPassword(username, password) {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Bad credentials"})
 		return
 	}
 
-	userId := 1
+	user := clientservices.GetClient(username)
 
-	userClaims := oauthservices.NewUserClaims(userId)
+	userClaims := oauthservices.NewUserClaims(int(user.ID))
 
 	if userClaims == nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error occured while creating the jwt tokens."})

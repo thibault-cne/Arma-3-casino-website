@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
+	"casino.website/pkg/config/server/websocket"
 	"casino.website/pkg/models"
-	"casino.website/pkg/server/websocket"
 	oauthservices "casino.website/pkg/services/oauth.services"
 	rouletteservices "casino.website/pkg/services/roulette.services"
 	"github.com/gin-gonic/gin"
@@ -43,6 +43,6 @@ func HandleRouletteGame(rg *gin.RouterGroup) {
 		connectRoulette(ctx, rGame)
 	})
 
-	go rGame.Start()
-	go rGame.End()
+	// go rGame.Start()
+	// go rGame.End()
 }

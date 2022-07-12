@@ -9,6 +9,7 @@ import (
 )
 
 func CreateNewClient(username string, accessType int) string {
+	// TO DO : check if username is available
 	client := NewClient(username, accessType)
 
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
@@ -50,4 +51,21 @@ func CheckClientModerationType(userId int) bool {
 	}
 
 	return false
+}
+
+func GetClient(username string) *models.Client {
+	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+
+	if err != nil {
+		fmt.Printf("An error occured while openning the database : %s", err.Error())
+		return nil
+	}
+
+	var user models.Client
+
+	if err := db.Where("username = ?", username).First(&user).Error; err != nil {
+		return nil
+	}
+
+	return &user
 }

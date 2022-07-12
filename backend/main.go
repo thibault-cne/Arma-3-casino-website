@@ -4,8 +4,8 @@ import (
 	"math/rand"
 	"time"
 
-	"casino.website/pkg/db"
-	"casino.website/pkg/server"
+	"casino.website/pkg/config/db"
+	"casino.website/pkg/config/server"
 )
 
 func main() {

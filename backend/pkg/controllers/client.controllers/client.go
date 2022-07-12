@@ -46,5 +46,5 @@ func createNewClient(ctx *gin.Context) {
 func ClientRouteHandler(rg *gin.RouterGroup) {
 	routerGroup := rg.Group("/client")
 
-	routerGroup.GET("/create", createNewClient)
+	routerGroup.POST("/create", createNewClient)
 }
