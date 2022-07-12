@@ -5,7 +5,7 @@ function refreshToken() {
   const token = "Bearer ".concat(authStore.getters.refreshToken);
   const header = {
     Authorization: token,
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
   };
   return new Promise((resolve, reject) => {
     getAPI

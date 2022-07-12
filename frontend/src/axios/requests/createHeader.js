@@ -1,17 +1,8 @@
 import { authStore } from "@/store/authStore";
 
-function createHeader(headerType) {
+function createHeader() {
   let header;
-  let contentType;
-  if (headerType === "file") {
-    contentType = "multipart/form-data";
-  } else if (headerType === "json") {
-    contentType = "application/json";
-  } else if (headerType === "data") {
-    contentType = "multipart/form-data";
-  } else {
-    contentType = "application/x-www-form-urlencoded";
-  }
+  let contentType = "multipart/form-data";
   if (authStore.getters.loggedIn) {
     const token = "Bearer ".concat(authStore.getters.accessToken);
     header = {

@@ -19,7 +19,9 @@ export default {
     submit() {
       let data = { username: this.username, password: this.password };
 
-      postRequest(data, "/oauth/login", "json").then((response) => {
+      console.log(data);
+
+      postRequest(data, "/oauth/login").then((response) => {
         let credentials = {
           accessToken: response.data.access_token,
           refreshToken: response.data.refresh_token,

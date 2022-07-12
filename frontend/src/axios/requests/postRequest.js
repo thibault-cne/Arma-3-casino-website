@@ -2,8 +2,8 @@ import { getAPI } from "@/axios/axios";
 import { refreshToken } from "@/axios/requests/refreshRequests";
 import { createHeader } from "@/axios/requests/createHeader";
 
-function postRequest(data, url, headerType) {
-  const header = createHeader(headerType);
+function postRequest(data, url) {
+  const header = createHeader();
   return new Promise((resolve, reject) => {
     getAPI
       .post(url, data, { headers: header })
