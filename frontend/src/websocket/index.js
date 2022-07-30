@@ -1,9 +1,8 @@
 import { refreshToken } from "@/axios/requests/refreshRequests";
-import { authStore } from "@/store/authStore";
 
 let uri = "ws://localhost:5454/api/v1/roulette/connect";
 
-var socket = new WebSocket(uri + "?token=" + authStore.getters.accessToken);
+var socket = new WebSocket(uri);
 
 let connect = () => {
   console.log("Attempting Connection...");
@@ -20,8 +19,6 @@ let connect = () => {
       });
       return;
     }
-
-    console.log(data);
   };
 
   socket.onclose = (event) => {
@@ -38,4 +35,4 @@ let sendMsg = (msg) => {
   socket.send(msg);
 };
 
-export { connect, sendMsg };
+export { connect, sendMsg, socket };

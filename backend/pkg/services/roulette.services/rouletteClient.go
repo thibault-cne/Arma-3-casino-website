@@ -17,7 +17,7 @@ type RouletteClient struct {
 func (rClient *RouletteClient) ReadRouletteClient(rGame *RouletteGame) {
 	defer func() {
 		fmt.Printf("Defering player conn\n")
-		rGame.UnregisterPlayerConn <- rClient
+		rGame.UnregisterPlayerConn <- rClient.WsConn
 		rClient.WsConn.Close()
 	}()
 

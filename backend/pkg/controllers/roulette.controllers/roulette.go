@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"casino.website/pkg/config/server/websocket"
-	"casino.website/pkg/models"
 	oauthservices "casino.website/pkg/services/oauth.services"
 	rouletteservices "casino.website/pkg/services/roulette.services"
 	"github.com/gin-gonic/gin"
@@ -23,16 +22,15 @@ func connectRoulette(ctx *gin.Context, rGame *rouletteservices.RouletteGame) {
 	claims, err := oauthservices.DecodeToken(reqToken)
 
 	if err != nil {
-		conn.WriteJSON(models.Error{ErrorType: 401, ErrorMessage: "Unauthorized"})
-		conn.Close()
-		return
+		rGame.RegisterPlayerConn <- conn
+
+	} else {
+		client := &rouletteservices.RouletteClient{ClientId: strconv.Itoa(claims.User_id), WsConn: conn}
+
+		rGame.RegisterPlayerConn <- client.WsConn
+
+		client.ReadRouletteClient(rGame)
 	}
-
-	client := &rouletteservices.RouletteClient{ClientId: strconv.Itoa(claims.User_id), WsConn: conn}
-
-	rGame.RegisterPlayerConn <- client
-
-	client.ReadRouletteClient(rGame)
 }
 
 func HandleRouletteGame(rg *gin.RouterGroup) {
@@ -43,6 +41,6 @@ func HandleRouletteGame(rg *gin.RouterGroup) {
 		connectRoulette(ctx, rGame)
 	})
 
-	// go rGame.Start()
+	go rGame.Start()
 	// go rGame.End()
 }

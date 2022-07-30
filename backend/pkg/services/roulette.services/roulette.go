@@ -5,15 +5,16 @@ import (
 	"time"
 
 	"casino.website/pkg/models"
+	"github.com/gorilla/websocket"
 )
 
 type RouletteGame struct {
 	Id                   string
 	RegisterBet          chan *models.RouletteBets
-	RegisterPlayerConn   chan *RouletteClient
-	UnregisterPlayerConn chan *RouletteClient
+	RegisterPlayerConn   chan *websocket.Conn
+	UnregisterPlayerConn chan *websocket.Conn
 	Bets                 map[*models.RouletteBets]bool
-	ConnectedPlayers     map[*RouletteClient]bool
+	ConnectedPlayers     map[*websocket.Conn]bool
 	BroadcastBets        chan *models.RouletteBets
 }
 
@@ -21,10 +22,10 @@ func NewRouletteGame() *RouletteGame {
 	return &RouletteGame{
 		Id:                   generateRandomId(),
 		RegisterBet:          make(chan *models.RouletteBets),
-		RegisterPlayerConn:   make(chan *RouletteClient),
-		UnregisterPlayerConn: make(chan *RouletteClient),
+		RegisterPlayerConn:   make(chan *websocket.Conn),
+		UnregisterPlayerConn: make(chan *websocket.Conn),
 		Bets:                 make(map[*models.RouletteBets]bool),
-		ConnectedPlayers:     make(map[*RouletteClient]bool),
+		ConnectedPlayers:     make(map[*websocket.Conn]bool),
 		BroadcastBets:        make(chan *models.RouletteBets),
 	}
 }
@@ -40,16 +41,16 @@ func (rGame *RouletteGame) Start() {
 			fmt.Printf("Registering a new bet %+v\n", bet)
 			rGame.Bets[bet] = true
 			break
-		case client := <-rGame.RegisterPlayerConn:
-			fmt.Printf("Registering a new player %+v\n", client)
-			rGame.ConnectedPlayers[client] = true
+		case conn := <-rGame.RegisterPlayerConn:
+			fmt.Printf("Registering a new player.\n")
+			rGame.ConnectedPlayers[conn] = true
 			break
-		case client := <-rGame.UnregisterPlayerConn:
-			delete(rGame.ConnectedPlayers, client)
+		case conn := <-rGame.UnregisterPlayerConn:
+			delete(rGame.ConnectedPlayers, conn)
 			break
 		case bet := <-rGame.BroadcastBets:
-			for connectedClient := range rGame.ConnectedPlayers {
-				if err := connectedClient.WsConn.WriteJSON(bet); err != nil {
+			for conn := range rGame.ConnectedPlayers {
+				if err := conn.WriteJSON(bet); err != nil {
 					fmt.Printf("An error occured while broadcasting : %s", err.Error())
 					return
 				}
